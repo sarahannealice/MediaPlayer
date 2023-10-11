@@ -11,6 +11,7 @@ Once a song has been selected, the user should be able to toggle the display bet
 and a tag-editing screen. If the user makes changes and saves any tag data, the changes should be written back
 into the MP3 file’s tag metadata.
 
+
 TECHNICAL REQUIREMENTS
 
 Your solution should be built to include the following technical specs:
@@ -20,6 +21,7 @@ Your solution should be built to include the following technical specs:
 * Use at least three layout managers to create an intuitive and flexible user interface.
 * At minimum, the app should be able to read and write the following tag data: Song Title, Artist, Album, Year. Other tags can be used as desired.
 * Implement reasonable exception handling to avoid program crashes.
+
 
 TECHNICAL RESOURCES
 

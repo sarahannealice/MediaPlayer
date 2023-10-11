@@ -12,6 +12,7 @@ and a tag-editing screen. If the user makes changes and saves any tag data, the 
 into the MP3 file’s tag metadata.
 
 TECHNICAL REQUIREMENTS
+
 Your solution should be built to include the following technical specs:
 * WPF application using XAML and C#.
 * Use CommandBindings for the media and application controls
@@ -21,6 +22,7 @@ Your solution should be built to include the following technical specs:
 * Implement reasonable exception handling to avoid program crashes.
 
 TECHNICAL RESOURCES
+
 For accessing and editing ID3 tag metadata from the Mp3, it is suggested that you install the TagLib-Sharp package
 shown below. This third-party package allows reading and writing of ID3 tag data in MP3 files. Documentation and
 examples can be found on their website: http://taglib.org/api/

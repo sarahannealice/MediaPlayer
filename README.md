@@ -2,6 +2,7 @@
 Program – Media Player/MP3 Tagger
 Design and write a program allows users to select and play an MP3 audio file, as well as edit and save some of the
 MP3 file’s tagged metadata.
+
 On application start, the user can open a file dialog, browse to an MP3 audio file, and open it. When an MP3 has
 been opened, the user can use either a menu option or toolbar buttons to control the music’s playback state
 (Play, Pause or Stop). After a song is selected, the primary song metadata (Title, Artist, Album, Year) shall be

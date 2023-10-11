@@ -9,7 +9,28 @@
 
   <ItemGroup>
     <None Remove="audio-waves.png" />
-    <None Remove="wave.png" />
+    <None Remove="resources\adjust.png" />
+    <None Remove="resources\audio-file-line.png" />
+    <None Remove="resources\audio-file.png" />
+    <None Remove="resources\audio-waves.png" />
+    <None Remove="resources\button.png" />
+    <None Remove="resources\create-line.png" />
+    <None Remove="resources\create.png" />
+    <None Remove="resources\music-line.png" />
+    <None Remove="resources\music-note.png" />
+    <None Remove="resources\music.png" />
+    <None Remove="resources\mute-sign.png" />
+    <None Remove="resources\mute.png" />
+    <None Remove="resources\open-folder.png" />
+    <None Remove="resources\pause-button.png" />
+    <None Remove="resources\pause.png" />
+    <None Remove="resources\pen.png" />
+    <None Remove="resources\play-button.png" />
+    <None Remove="resources\quill-line.png" />
+    <None Remove="resources\quill.png" />
+    <None Remove="resources\stop-button.png" />
+    <None Remove="resources\stop.png" />
+    <None Remove="resources\wave.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,7 +38,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="wave.png" />
+    <Resource Include="resources\adjust.png" />
+    <Resource Include="resources\audio-file-line.png" />
+    <Resource Include="resources\audio-file.png" />
+    <Resource Include="resources\audio-waves.png" />
+    <Resource Include="resources\button.png" />
+    <Resource Include="resources\create-line.png" />
+    <Resource Include="resources\create.png" />
+    <Resource Include="resources\music-line.png" />
+    <Resource Include="resources\music-note.png" />
+    <Resource Include="resources\music.png" />
+    <Resource Include="resources\mute-sign.png" />
+    <Resource Include="resources\mute.png" />
+    <Resource Include="resources\open-folder.png" />
+    <Resource Include="resources\pause-button.png" />
+    <Resource Include="resources\pause.png" />
+    <Resource Include="resources\pen.png" />
+    <Resource Include="resources\play-button.png" />
+    <Resource Include="resources\quill-line.png" />
+    <Resource Include="resources\quill.png" />
+    <Resource Include="resources\stop-button.png" />
+    <Resource Include="resources\stop.png" />
+    <Resource Include="resources\wave.png" />
   </ItemGroup>
 
 </Project>

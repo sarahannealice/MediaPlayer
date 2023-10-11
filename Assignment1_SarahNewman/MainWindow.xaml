@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Assignment1_SarahNewman"
         mc:Ignorable="d"
-        Title="Sarah's Media Player" Height="450" Width="500" ResizeMode="NoResize" Icon="/wave.png">
+        Title="Sarah's Media Player" Height="450" Width="500" ResizeMode="NoResize" Icon="/resources/wave.png" FontFamily="Candara">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Open" 
                         CanExecute="Open_CanExecute" 
@@ -40,26 +40,26 @@
         <!-- left menu -->
         <StackPanel Height="auto" Width="75" DockPanel.Dock="Left" Margin="2,70,0,70">
             <Button x:Name="OpenFile" Command="ApplicationCommands.Open" Height="75" Width="75">
-                <Image x:Name="OpenFileImg" Source="pack://application:,,,/audio-file-line.png" />
+                <Image x:Name="OpenFileImg" Source="/resources/audio-file-line.png" />
             </Button>
-            <Button x:Name="NowPlaying" Height="auto" Width="auto">
-                <Image x:Name="NowPlayingImg" Source="/resoureces/music-line.png" />
+            <Button x:Name="NowPlaying" Click="ShowTagsBtn_Click" Height="auto" Width="auto" Background="WhiteSmoke">
+                <Image x:Name="NowPlayingImg" Source="/resources/music-line.png" />
             </Button>
-            <Button x:Name="EditTag" Height="auto" Width="auto">
-                <Image x:Name="EditTagImg" Source="/resoureces/quill-line.png" />
+            <Button x:Name="EditTag" Click="EditTagsBtn_Click" Height="auto" Width="auto" Background="WhiteSmoke">
+                <Image x:Name="EditTagImg" Source="/resources/quill-line.png" />
             </Button>
         </StackPanel>
-        
+
         <!-- bottom ausio menu -->
-        <ToolBar DockPanel.Dock="Bottom" Height="50" Margin="0,0,2,2" >
+        <ToolBar DockPanel.Dock="Bottom" ToolBarTray.IsLocked="True" ToolBar.OverflowMode="Never" Height="50" Margin="0,0,2,2" >
             <Button Command="MediaCommands.Play">
-                <Image Source="/resoureces/button.png" />
+                <Image Source="/resources/button.png" />
             </Button>
             <Button Command="MediaCommands.Pause">
-                <Image Source="/resoureces/pause.png" />
+                <Image Source="/resources/pause.png" />
             </Button>
             <Button Command="MediaCommands.Stop">
-                <Image Source="/resoureces/stop.png" />
+                <Image Source="/resources/stop.png" />
             </Button>
 
             <TextBlock x:Name="SongTimer" FontFamily="Century Gothic" VerticalAlignment="Center">00:00:00</TextBlock>
@@ -69,7 +69,17 @@
         </ToolBar>
 
         <!-- media player-->
-        <MediaElement DockPanel.Dock="Right" x:Name="myMediaPlayer" Width="auto" Height="auto" Margin="10,10,10,10" LoadedBehavior="Manual" UnloadedBehavior="Manual" />
+        <MediaElement DockPanel.Dock="top" x:Name="myMediaPlayer" Width="auto" Height="auto" Margin="10,10,10,10" LoadedBehavior="Manual" UnloadedBehavior="Manual" />
+        <StackPanel DockPanel.Dock="Bottom" x:Name="TagDisplay" VerticalAlignment="Bottom" Height="auto" Width="auto" Margin="5,5,5,5">
+            
+            <Image x:Name="ArtTag"></Image>
+            <TextBlock x:Name="TagEditor" FontFamily="Candara" FontSize="18" Width="100" HorizontalAlignment="left">Tag Editor</TextBlock>
+            <TextBox x:Name="TitleTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}"></TextBox>
+            <TextBox x:Name="ArtistTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}"></TextBox>
+            <TextBox x:Name="AlbumTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}"></TextBox>
+            <TextBox x:Name="YearTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}"></TextBox>
+            <Button x:Name="SaveBtn" FontFamily="Candara" FontSize="18" HorizontalAlignment="Center" Background="WhiteSmoke" Click="SaveBtn_Click">Save</Button>
+        </StackPanel>
 
     </DockPanel>
 </Window>

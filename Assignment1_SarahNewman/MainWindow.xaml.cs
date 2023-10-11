@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,10 +25,15 @@ namespace Assignment1_SarahNewman
     /// </summary>
     public partial class MainWindow : Window
     {
-        // additional guidance -- https://wpf-tutorial.com/hu/101/audio-video/how-to-creating-a-complete-audio-video-player/
+        string title;
+        string[] artist;
+        string album;
+
+        // additional guidance for slider -- https://wpf-tutorial.com/hu/101/audio-video/how-to-creating-a-complete-audio-video-player/
         public bool audioPlaying = false;
         public bool dragSlider = false;
-        TagLib.File currFile;
+        TagLib.File file;
+        OpenFileDialog dialog;
 
         public MainWindow()
         {
@@ -43,7 +50,7 @@ namespace Assignment1_SarahNewman
             SaveBtn.Visibility = Visibility.Collapsed;
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void timer_Tick(Object sender, EventArgs e)
         {
             if ((myMediaPlayer != null) && (myMediaPlayer.NaturalDuration.HasTimeSpan) && !dragSlider)
             {
@@ -55,30 +62,34 @@ namespace Assignment1_SarahNewman
             }
         }
 
-        private void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+
+        //---------- Executable Events ----------//
+        private void Open_CanExecute(Object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
 
-        private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void Open_Executed(Object sender, ExecutedRoutedEventArgs e)
         {
-            TagEditor.Visibility = Visibility.Collapsed;
-            SaveBtn.Visibility = Visibility.Collapsed;
+            HideEditBoxes();
 
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Media files (*.mp3)|*.mp3|All files (*.*)|*.*";
+            dialog = new OpenFileDialog();
+            dialog.Filter = "Media files (*.mp3)(*.mp4)|*.mp3|All files (*.*)|*.*";
 
             if (dialog.ShowDialog() == true)
             {
-                // reset tags
-                TitleTag.Text = "";
-                ArtistTag.Text = "";
-                YearTag.Text = "";
-                AlbumTag.Text = "";
+                ResetTags();
 
-                currFile = TagLib.File.Create(dialog.FileName);
+                // hide edit textboxes
+
+                HideEditBoxes();
+
+                file = TagLib.File.Create(dialog.FileName);
                 myMediaPlayer.Source = new Uri(dialog.FileName);
                 myMediaPlayer.Play();
+
+                DisplayArt();
+
             }
         }
 
@@ -110,18 +121,56 @@ namespace Assignment1_SarahNewman
 
         private void Stop_Executed(Object sender, ExecutedRoutedEventArgs e)
         {
-            TagEditor.Visibility = Visibility.Collapsed;
-            SaveBtn.Visibility = Visibility.Collapsed;
             myMediaPlayer.Stop(); 
             audioPlaying = false;
         }
 
-        private void SongSlider_DragStarted(object sender, DragStartedEventArgs e)
+        private void Save_CanExecute(Object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void Save_Executed(Object sender, ExecutedRoutedEventArgs e)
+        {
+
+
+            if (null != TitleTag.Text) file.Tag.Title = TitleTag.Text;
+            if (null != ArtistTag.Text) file.Tag.Artists[0] = ArtistTag.Text;
+            if (null != AlbumTag.Text) file.Tag.Album = AlbumTag.Text;
+
+            try
+            {
+                using (file)
+                {
+                    // Check if the file has valid tag information
+                    if (file.Tag != null)
+                    {
+                        // Update the title tag with the content from the TextBox
+                        file.Tag.Title = EditTitle.Text;
+
+                        myMediaPlayer.Source = null;
+                        file.Save();
+                        myMediaPlayer.Source = new Uri(dialog.FileName);
+                        MessageBox.Show("Title tag updated successfully!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No valid tag information found for the file.");
+                    }
+                }  // The using block ensures that the file is properly closed after use
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+        }
+
+        private void SongSlider_DragStarted(Object sender, DragStartedEventArgs e)
         {
             dragSlider = true;
         }
 
-        private void SongSlider_DragCompleted(object sender, DragCompletedEventArgs e)
+        private void SongSlider_DragCompleted(Object sender, DragCompletedEventArgs e)
         {
             dragSlider = false;
             myMediaPlayer.Position = TimeSpan.FromSeconds(SongSlider.Value);
@@ -134,77 +183,136 @@ namespace Assignment1_SarahNewman
             SongTimer.Text = TimeSpan.FromSeconds(songTime).ToString(@"hh\:mm\:ss");
         }
 
-        private void ShowTagsBtn_Click(object sender, RoutedEventArgs e)
+
+        //---------- OnClick Events ----------//
+        private void ShowTagsBtn_Click(Object sender, RoutedEventArgs e)
         {
-            TagEditor.Visibility = Visibility.Collapsed;
-            SaveBtn.Visibility = Visibility.Collapsed;
+            HideEditBoxes();
 
-            // set tags to readonly
-            TitleTag.IsReadOnly = true;
-            ArtistTag.IsReadOnly = true;
-            AlbumTag.IsReadOnly = true;
-            YearTag.IsReadOnly = true;
-
-            if (currFile != null)
+            if (file != null)
             {
                 // get tags
-                var title = currFile.Tag.Title;
-                var artist = currFile.Tag.AlbumArtists.FirstOrDefault();
-                var album = currFile.Tag.Album;
-                var year = currFile.Tag.Year;
+                var title = file.Tag.Title;
+                var artist = file.Tag.AlbumArtists.FirstOrDefault();
+                var album = file.Tag.Album;
+
 
                 if (title != null) TitleTag.Text = title;
                 if (artist != null) ArtistTag.Text = artist;
                 if (album != null) AlbumTag.Text = album;
-                if (year != 0) YearTag.Text = year.ToString();
-
-                // figure out album art
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.BeginInit();
-
-                if (bitmap != null)
-                {
-                    ArtTag.Source = bitmap;
-                } else
-                {
-                    //ArtTag.Source = 
-                }
-                
             }
         }
 
         private void EditTagsBtn_Click(Object sender, RoutedEventArgs e)
         {
-            if (currFile != null)
+            if (file != null)
             {
-                myMediaPlayer.Stop();
-                TagEditor.Visibility = Visibility.Visible;
-                SaveBtn.Visibility = Visibility.Visible;
+                // make edit textboxes visible
+                ShowEditBoxes();
 
-                // set tags to edit
-                TitleTag.IsReadOnly = false;
-                ArtistTag.IsReadOnly = false;
-                AlbumTag.IsReadOnly = false;
-                YearTag.IsReadOnly = false;
+                if (null == file.Tag.Title)
+                {
+                    EditTitle.Text = "Title";
+                }
+                else
+                {
+                    EditTitle.Text = file.Tag.Title;
+                }
 
-                if (null == currFile.Tag.Title) TitleTag.Text = "Title: ";
-                else TitleTag.Text = currFile.Tag.Title;
+
+                /*
+                if (null == currFile.Tag.Performers) ArtistTag.Text = "Artist";
+                else ArtistTag.Text = currFile.Tag.Performers[0];
+
+                if (null == currFile.Tag.Album) AlbumTag.Text = "Album";
+                else AlbumTag.Text = currFile.Tag.Album;
+                */
             }
         }
 
-        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        private void DisplayArt()
         {
-            if (null != TitleTag.Text) currFile.Tag.Title = TitleTag.Text;
+            // album art tag -- https://stackoverflow.com/a/17905163
+            if (0 < file.Tag.Pictures.Length)
+            {
+                // load image data into memorystream
+                TagLib.IPicture pic = file.Tag.Pictures[0];
+                MemoryStream ms = new MemoryStream(pic.Data.Data);
+                ms.Seek(0, SeekOrigin.Begin);
+
+                // imagesource for system.windows.controls.image
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.StreamSource = ms;
+                bitmap.EndInit();
+
+                AlbumArtTag.Source = bitmap;
+                AlbumArtTag.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                DefaultArtTag.Visibility = Visibility.Visible;
+                AlbumArtTag.Visibility = Visibility.Collapsed;
+
+            }
+        }
+
+        private void ResetTags()
+        {
+            // reset tags
+            TitleTag.Text = "";
+            ArtistTag.Text = "";
+            AlbumTag.Text = "";
+        }
+
+        private void ShowEditBoxes()
+        {
+            TagEditor.Visibility = Visibility.Visible;
+            SaveBtn.Visibility = Visibility.Visible;
+
+            EditTitle.Visibility = Visibility.Visible;
+        }
+
+        private void HideEditBoxes()
+        {
+            TagEditor.Visibility = Visibility.Collapsed;
+            SaveBtn.Visibility = Visibility.Collapsed;
+            EditTitle.Visibility = Visibility.Collapsed;
+        }
+
+        private void SaveBtn_Click(Object sender, RoutedEventArgs e)
+        {
+            if (null != TitleTag.Text) file.Tag.Title = TitleTag.Text;
+            /*
             if (null != ArtistTag.Text) currFile.Tag.Artists[0] = ArtistTag.Text;
             if (null != AlbumTag.Text) currFile.Tag.Album = AlbumTag.Text;
+            */
 
-            if (null != YearTag.Text)
+            try
             {
-                int temp = Int32.Parse(YearTag.Text);
-                currFile.Tag.Year = (uint)temp;
-            }
+                using (file)
+                {
+                    // Check if the file has valid tag information
+                    if (file.Tag != null)
+                    {
+                        // Update the title tag with the content from the TextBox
+                        file.Tag.Title = EditTitle.Text;
 
-            currFile.Save();
+                        // Save the changes to the file
+                        file.Save();
+                        file.Dispose();
+                        MessageBox.Show("Title tag updated successfully!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No valid tag information found for the file.");
+                    }
+                }  // The using block ensures that the file is properly closed after use
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
         }
     }
 }

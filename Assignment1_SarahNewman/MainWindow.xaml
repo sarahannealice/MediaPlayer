@@ -19,6 +19,9 @@
         <CommandBinding Command="MediaCommands.Stop" 
                         CanExecute="Stop_CanExecute" 
                         Executed="Stop_Executed" />
+        <CommandBinding Command="ApplicationCommands.Save"
+                        CanExecute="Save_CanExecute"
+                        Executed="Save_Executed" />
     </Window.CommandBindings>
 
     <DockPanel Background="#FF99B4D1">
@@ -28,7 +31,7 @@
                 <MenuItem Command="ApplicationCommands.Open"></MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem>Tag Current MP3</MenuItem>
+                <MenuItem Header="Tag Current MP3" Click="EditTagsBtn_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Media">
                 <MenuItem Command="MediaCommands.Play"></MenuItem>
@@ -70,16 +73,42 @@
 
         <!-- media player-->
         <MediaElement DockPanel.Dock="top" x:Name="myMediaPlayer" Width="auto" Height="auto" Margin="10,10,10,10" LoadedBehavior="Manual" UnloadedBehavior="Manual" />
-        <StackPanel DockPanel.Dock="Bottom" x:Name="TagDisplay" VerticalAlignment="Bottom" Height="auto" Width="auto" Margin="5,5,5,5">
+        <Grid DockPanel.Dock="Bottom" x:Name="TagDisplay" Height="auto" Width="auto" Margin="5,5,5,5">
+
+            <!-- grid setup -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+
+            <!-- display tag textblocks -->
+            <Image x:Name="DefaultArtTag" Height="200" Width="200" Margin="0,0,0,10" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Source="/resources/wave.png" Visibility="Collapsed"></Image>
+            <Image x:Name="AlbumArtTag" Height="200" Width="200" Margin="0,0,0,10" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"></Image>
+            <TextBlock x:Name="TagEditor" FontFamily="Candara" FontSize="16" Width="100" HorizontalAlignment="left" Grid.Column="0" Grid.Row="1">Tag Editor</TextBlock>
+            <TextBlock x:Name="TitleTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
+            <TextBlock x:Name="ArtistTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="Transparent" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"></TextBlock>
+            <TextBlock x:Name="AlbumTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="Transparent" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"></TextBlock>
+            <!--<TextBlock x:Name="YearTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="Transparent" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2"></TextBox>-->
+            <Button x:Name="SaveBtn" FontFamily="Candara" FontSize="16" HorizontalAlignment="right" VerticalAlignment="Center" Background="WhiteSmoke" Margin="0,0,10,0"
+                    Command="ApplicationCommands.Save" Grid.Column="1" Grid.Row="1" >Save</Button>
+
+            <!-- edit tag textboxes -->
+            <TextBox x:Name="EditTitle" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" BorderBrush="Transparent" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Foreground="White" Visibility="Collapsed">
+                <TextBox.Background>
+                    <SolidColorBrush Color="#72000000"/>
+                </TextBox.Background>
+            </TextBox>
             
-            <Image x:Name="ArtTag"></Image>
-            <TextBlock x:Name="TagEditor" FontFamily="Candara" FontSize="18" Width="100" HorizontalAlignment="left">Tag Editor</TextBlock>
-            <TextBox x:Name="TitleTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}"></TextBox>
-            <TextBox x:Name="ArtistTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}"></TextBox>
-            <TextBox x:Name="AlbumTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}"></TextBox>
-            <TextBox x:Name="YearTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}"></TextBox>
-            <Button x:Name="SaveBtn" FontFamily="Candara" FontSize="18" HorizontalAlignment="Center" Background="WhiteSmoke" Click="SaveBtn_Click">Save</Button>
-        </StackPanel>
+        </Grid>
 
     </DockPanel>
 </Window>

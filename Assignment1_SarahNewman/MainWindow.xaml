@@ -29,6 +29,7 @@
         <Menu DockPanel.Dock="Top" FontFamily="Candara" FontSize="14">
             <MenuItem Header="File">
                 <MenuItem Command="ApplicationCommands.Open"></MenuItem>
+                <MenuItem Header="Exit" Click="Exit_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Tag Current MP3" Click="EditTagsBtn_Click"></MenuItem>
@@ -43,13 +44,13 @@
         <!-- left menu -->
         <StackPanel Height="auto" Width="75" DockPanel.Dock="Left" Margin="2,70,0,70">
             <Button x:Name="OpenFile" Command="ApplicationCommands.Open" Height="75" Width="75">
-                <Image x:Name="OpenFileImg" Source="/resources/audio-file-line.png" />
+                <Image x:Name="OpenFileImg" Source="/resources/audio-file.png" />
             </Button>
             <Button x:Name="NowPlaying" Click="ShowTagsBtn_Click" Height="auto" Width="auto" Background="WhiteSmoke">
-                <Image x:Name="NowPlayingImg" Source="/resources/music-line.png" />
+                <Image x:Name="NowPlayingImg" Source="/resources/music.png" />
             </Button>
             <Button x:Name="EditTag" Click="EditTagsBtn_Click" Height="auto" Width="auto" Background="WhiteSmoke">
-                <Image x:Name="EditTagImg" Source="/resources/quill-line.png" />
+                <Image x:Name="EditTagImg" Source="/resources/quill.png" />
             </Button>
         </StackPanel>
 
@@ -86,9 +87,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-
 
             <!-- display tag textblocks -->
             <Image x:Name="DefaultArtTag" Height="200" Width="200" Margin="0,0,0,10" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Source="/resources/wave.png" Visibility="Collapsed"></Image>
@@ -97,12 +96,21 @@
             <TextBlock x:Name="TitleTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"></TextBlock>
             <TextBlock x:Name="ArtistTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="Transparent" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"></TextBlock>
             <TextBlock x:Name="AlbumTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="Transparent" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"></TextBlock>
-            <!--<TextBlock x:Name="YearTag" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" Background="Transparent" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2"></TextBox>-->
             <Button x:Name="SaveBtn" FontFamily="Candara" FontSize="16" HorizontalAlignment="right" VerticalAlignment="Center" Background="WhiteSmoke" Margin="0,0,10,0"
                     Command="ApplicationCommands.Save" Grid.Column="1" Grid.Row="1" >Save</Button>
 
             <!-- edit tag textboxes -->
             <TextBox x:Name="EditTitle" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" BorderBrush="Transparent" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Foreground="White" Visibility="Collapsed">
+                <TextBox.Background>
+                    <SolidColorBrush Color="#72000000"/>
+                </TextBox.Background>
+            </TextBox>
+            <TextBox x:Name="EditArtist" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" BorderBrush="Transparent" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Foreground="White" Visibility="Collapsed">
+                <TextBox.Background>
+                    <SolidColorBrush Color="#72000000"/>
+                </TextBox.Background>
+            </TextBox>
+            <TextBox x:Name="EditAlbum" FontFamily="Candara" FontSize="16" HorizontalAlignment="Center" BorderBrush="Transparent" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Foreground="White" Visibility="Collapsed">
                 <TextBox.Background>
                     <SolidColorBrush Color="#72000000"/>
                 </TextBox.Background>

@@ -41,23 +41,15 @@
     <Resource Include="resources\adjust.png" />
     <Resource Include="resources\audio-file-line.png" />
     <Resource Include="resources\audio-file.png" />
-    <Resource Include="resources\audio-waves.png" />
     <Resource Include="resources\button.png" />
     <Resource Include="resources\create-line.png" />
     <Resource Include="resources\create.png" />
     <Resource Include="resources\music-line.png" />
-    <Resource Include="resources\music-note.png" />
     <Resource Include="resources\music.png" />
-    <Resource Include="resources\mute-sign.png" />
     <Resource Include="resources\mute.png" />
-    <Resource Include="resources\open-folder.png" />
-    <Resource Include="resources\pause-button.png" />
     <Resource Include="resources\pause.png" />
-    <Resource Include="resources\pen.png" />
-    <Resource Include="resources\play-button.png" />
     <Resource Include="resources\quill-line.png" />
     <Resource Include="resources\quill.png" />
-    <Resource Include="resources\stop-button.png" />
     <Resource Include="resources\stop.png" />
     <Resource Include="resources\wave.png" />
   </ItemGroup>

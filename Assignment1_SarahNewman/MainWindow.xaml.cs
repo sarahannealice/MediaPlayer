@@ -30,6 +30,8 @@ namespace Assignment1_SarahNewman
         public bool dragSlider = false;
         TagLib.File file;
         OpenFileDialog dialog;
+        double tempTime;
+        System.TimeSpan tempPosition;
 
         public MainWindow()
         {
@@ -135,6 +137,10 @@ namespace Assignment1_SarahNewman
                     // check if the file has valid tag information
                     if (file.Tag != null)
                     {
+                        // gets current position of song before saving so it can continue where it left off
+                        tempPosition = TimeSpan.FromSeconds(SongSlider.Value);
+                        tempTime = SongSlider.Value;
+
                         // closes file to allow for saving of new tags
                         myMediaPlayer.Source = null;
                         myMediaPlayer.Close();
@@ -153,6 +159,8 @@ namespace Assignment1_SarahNewman
                         // updates current screen with changes
                         HideEditBoxes();
                         myMediaPlayer.Source = new Uri(dialog.FileName); // re-opens originally selected file for smooth funcitonality
+                        myMediaPlayer.Position = tempPosition;
+                        SongSlider.Value = tempTime;
                         myMediaPlayer.Play();
                         ShowTagsBtn_Click(sender, e);
                     }
